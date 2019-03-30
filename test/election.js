@@ -32,6 +32,9 @@ contract("Election", function(accounts) {
       candidateId = 1;
       return electionInstance.vote(candidateId, { from: accounts[0] });
     }).then((receipt) => {
+      assert.equal(receipt.logs.length, 1, "an event was triggered");
+      assert.equal(receipt.logs[0].event, "votedEvent", "the event type is correct");
+      assert.equal(receipt.logs[0].args._candidateId.toNumber(), candidateId, "the candidate id is correct");
       return electionInstance.voters(accounts[0]);
     }).then((voted) => {
       assert(voted, "the voter was masked as voted");
@@ -58,7 +61,7 @@ contract("Election", function(accounts) {
       assert.equal(voteCount, 0, "candidate 2 did not receive any votes");
     });
   });
-  
+
   it("throws an exception for double voting", function() {
     return Election.deployed().then((instance) => {
       electionInstance = instance;

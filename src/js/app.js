@@ -29,7 +29,7 @@ App = {
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
 
-      // App.listenForEvents();
+      App.listenForEvents();
 
       return App.render();
     });
